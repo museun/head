@@ -1,3 +1,5 @@
+#![cfg_attr(annoying, deny(dead_code, unused_imports, missing_docs))]
+
 use std::io::prelude::*;
 
 fn die<F: Fn() -> D, D: std::fmt::Display>(f: F) -> ! {
@@ -70,9 +72,9 @@ fn main() {
         (..) => Filter::Lines(10),
     };
 
-    let files = args.free().unwrap();
+    let mut files = args.free().unwrap();
     if files.is_empty() {
-        die(|| "provide atleast one [FILE].. or '-' for stdin");
+        files.push("-".into())
     }
 
     quiet |= files.len() == 1;
